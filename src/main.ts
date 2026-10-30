@@ -1,6 +1,7 @@
 import './styles/index.css';
 import { demoRecipes } from './data/demo-recipes';
-import type { Recipe } from './types/recipe';
+import type { Recipe , MealDBMeal} from './types/recipe';
+import { fetchMealData } from './api/themealdb';
 
 // Small, replaceable demo controller. The styles do not depend on this module.
 function element<T extends HTMLElement>(selector: string): T {
@@ -39,42 +40,38 @@ const icon = (name: string) => `<svg class="icon" aria-hidden="true"><use href="
 const imagePath = (name: string) => `${import.meta.env.BASE_URL}images/${encodeURIComponent(name)}`;
 const normalize = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
 
-function card(recipe: Recipe): string {
-  const isSaved = saved.has(recipe.id);
+function card(recipe: MealDBMeal): string {
+  const isSaved = saved.has(recipe.idMeal);
   return `<article class="recipe-card">
     <div class="card-image-wrap">
-      <button class="card-image-link" type="button" data-open="${recipe.id}" aria-label="View ${escape(recipe.title)}"><img class="card-image" src="${imagePath(recipe.image)}" alt="${escape(recipe.imageAlt)}" width="600" height="400" loading="lazy" decoding="async" /></button>
-      <span class="card-label">${escape(recipe.label)}</span>
-      <button class="icon-button card-save" type="button" data-save="${recipe.id}" aria-label="${isSaved ? 'Unsave' : 'Save'} ${escape(recipe.title)}" aria-pressed="${isSaved}">${icon('heart')}</button>
+      <button class="card-image-link" type="button" data-open="${recipe.idMeal}" aria-label="View ${escape(recipe.strMeal)}"><img class="card-image" src="${imagePath(recipe.strMealThumb)}" alt="${escape(recipe.strTags)}" width="600" height="400" loading="lazy" decoding="async" /></button>
+      <span class="card-label">${escape(recipe.strCategory)}</span>
+      <button class="icon-button card-save" type="button" data-save="${recipe.idMeal}" aria-label="${isSaved ? 'Unsave' : 'Save'} ${escape(recipe.strMeal)}" aria-pressed="${isSaved}">${icon('heart')}</button>
     </div>
     <div class="card-body">
-      <p class="card-category">${recipe.category === 'Snacks' ? 'Snacks & treats' : recipe.category}</p>
-      <h3 class="card-title"><button class="title-button" type="button" data-open="${recipe.id}">${escape(recipe.title)}</button></h3>
-      <p class="card-description">${escape(recipe.description)}</p>
-      <div class="card-meta"><span>${icon('clock')}${recipe.prepMinutes + recipe.cookMinutes} min total</span><span>${icon('users')}${recipe.servings} ${recipe.servings === 1 ? 'serving' : 'servings'}</span></div>
-      <div class="card-footer"><span>${recipe.cookMinutes === 0 ? 'No cooking needed' : `${recipe.prepMinutes} min prep · ${recipe.cookMinutes} min cook`}</span><button class="recipe-link" type="button" data-open="${recipe.id}">View recipe ${icon('arrow')}</button></div>
+      <p class="card-category">${recipe.strCategory === 'Snacks' ? 'Snacks & treats' : recipe.strCategory}</p>
+      <h3 class="card-title"><button class="title-button" type="button" data-open="${recipe.idMeal}">${escape(recipe.strMeal)}</button></h3>
+      <p class="card-description">${escape(recipe.strInstructions)}</p>
     </div>
   </article>`;
 }
 
-function render(): void {
+async function render(): Promise<void> {
   const query = normalize(search.value);
-  const filtered = demoRecipes.filter((recipe) =>
-    (category === 'All' || recipe.category === category) &&
-    (!savedOnly || saved.has(recipe.id)) &&
-    (prep.value === '' || recipe.prepMinutes <= Number(prep.value)) &&
-    (cook.value === '' || recipe.cookMinutes <= Number(cook.value)) &&
-    (!query || normalize(`${recipe.title} ${recipe.ingredients.join(' ')}`).includes(query)),
-  );
+  const randomRecipe = (await fetchMealData()).meals;
+  console.log('Random Recipe:', randomRecipe);
+  if (randomRecipe === null){
+    throw new Error("no riceps finded")
+  }
 
-  grid.innerHTML = filtered.slice(0, visibleCount).map(card).join('');
-  element('#result-count').textContent = `${filtered.length} ${savedOnly ? 'saved ' : ''}${filtered.length === 1 ? 'recipe' : 'recipes'} to explore`;
+  grid.innerHTML = randomRecipe.slice(0, visibleCount).map(card).join('');
+  element('#result-count').textContent = `${randomRecipe.length} ${savedOnly ? 'saved ' : ''}${randomRecipe.length === 1 ? 'recipe' : 'recipes'} to explore`;
   element('#saved-count').textContent = String(saved.size);
   savedToggle.setAttribute('aria-pressed', String(savedOnly));
-  element('#empty-state').hidden = filtered.length > 0;
+  element('#empty-state').hidden = randomRecipe.length > 0;
   element('#empty-description').textContent = savedOnly && saved.size === 0 ? 'Tap a heart on any recipe to keep your favorites here.' : 'Try another ingredient or give your filters a little room.';
-  loadMore.hidden = visibleCount >= filtered.length;
-  element('#collection-note').textContent = filtered.length === 0 ? '' : visibleCount >= filtered.length ? "That's the whole collection. What will you make first?" : 'Good things are worth making.';
+  loadMore.hidden = visibleCount >= randomRecipe.length;
+  element('#collection-note').textContent = randomRecipe.length === 0 ? '' : visibleCount >= randomRecipe.length ? "That's the whole collection. What will you make first?" : 'Good things are worth making.';
   document.querySelectorAll<HTMLButtonElement>('[data-category]').forEach((button) => {
     const active = button.dataset.category === category;
     button.classList.toggle('is-active', active);

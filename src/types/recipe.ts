@@ -18,14 +18,14 @@ export interface Recipe {
 export interface MealDBMeal {
   idMeal: string;
   strMeal: string;
-  strCategory: string | null;
-  strArea: string | null;
-  strInstructions: string | null;
+  strCategory: string;
+  strArea: string;
+  strInstructions: string;
   strMealThumb: string;
-  strYoutube: string | null;
-  strSource: string | null;
-  strTags: string | null;
-  [key: `strIngredient${number}`]: string | null;
+  strYoutube: string;
+  strSource: string;
+  strTags: string;
+  [key: `strIngredient${number}`]: string;
   [key: `strMeasure${number}`]: string | null;
 }
 

@@ -1,83 +1,215 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#214f3d" />
-    <meta name="description" content="A little inspiration for your everyday table. Discover simple, colorful recipes with Sprout." />
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <title>Sprout — Good food, everyday.</title>
-  </head>
-  <body>
-    <a class="skip-link" href="#recipes">Skip to recipes</a>
-    <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <symbol id="icon-leaf" viewBox="0 0 24 24"><path d="M12 21v-9M12 16C3 17 3 7 3 7s10-1 9 9ZM12 11C12 2 21 3 21 3s1 9-9 10"/></symbol>
-      <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
-      <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.5 4.5"/></symbol>
-      <symbol id="icon-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></symbol>
-      <symbol id="icon-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
-      <symbol id="icon-users" viewBox="0 0 24 24"><circle cx="9" cy="7" r="3"/><path d="M3 21v-3a6 6 0 0 1 12 0v3M17 4a3 3 0 0 1 0 6m2 5a6 6 0 0 1 2 4v2"/></symbol>
-      <symbol id="icon-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
-      <symbol id="icon-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
-      <symbol id="icon-sliders" viewBox="0 0 24 24"><path d="M4 7h9m4 0h3M4 17h3m4 0h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
-      <symbol id="icon-chef" viewBox="0 0 24 24"><path d="M7 14a5 5 0 1 1 1-9 5 5 0 0 1 8 0 5 5 0 1 1 1 9v7H7Zm0 3h10"/></symbol>
-      <symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m8 10 4 4 4-4"/></symbol>
-      <symbol id="icon-print" viewBox="0 0 24 24"><path d="M7 8V3h10v5M7 17H3V8h18v9h-4M7 14h10v7H7Z"/></symbol>
-    </svg>
 
-    <header class="site-header">
-      <div class="container header-inner">
-        <a class="brand" href="#" aria-label="Sprout home"><svg class="icon brand-icon"><use href="#icon-leaf"/></svg>sprout<span class="brand-dot">.</span></a>
-        <nav class="main-nav" aria-label="Main navigation">
-          <a class="nav-link is-active" href="#recipes">Recipes</a>
-          <a class="nav-link" href="#philosophy">Our philosophy</a>
-        </nav>
-        <button class="saved-button" id="saved-toggle" type="button" aria-pressed="false"><svg class="icon"><use href="#icon-heart"/></svg><span>Saved recipes</span><span class="saved-count" id="saved-count">0</span></button>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#214f3d" />
+  <meta name="description"
+    content="A little inspiration for your everyday table. Discover simple, colorful recipes with Sprout." />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <title>Sprout — Good food, everyday.</title>
+</head>
+
+<body>
+  <a class="skip-link" href="#recipes">Skip to recipes</a>
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="icon-leaf" viewBox="0 0 24 24">
+      <path d="M12 21v-9M12 16C3 17 3 7 3 7s10-1 9 9ZM12 11C12 2 21 3 21 3s1 9-9 10" />
+    </symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24">
+      <path d="M4 12h16m-6-6 6 6-6 6" />
+    </symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24">
+      <circle cx="10.8" cy="10.8" r="6.8" />
+      <path d="m16 16 4.5 4.5" />
+    </symbol>
+    <symbol id="icon-heart" viewBox="0 0 24 24">
+      <path
+        d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" />
+    </symbol>
+    <symbol id="icon-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 7v5l3 2" />
+    </symbol>
+    <symbol id="icon-users" viewBox="0 0 24 24">
+      <circle cx="9" cy="7" r="3" />
+      <path d="M3 21v-3a6 6 0 0 1 12 0v3M17 4a3 3 0 0 1 0 6m2 5a6 6 0 0 1 2 4v2" />
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24">
+      <path d="m5 12 4 4L19 6" />
+    </symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24">
+      <path d="m6 6 12 12M6 18 18 6" />
+    </symbol>
+    <symbol id="icon-sliders" viewBox="0 0 24 24">
+      <path d="M4 7h9m4 0h3M4 17h3m4 0h9" />
+      <circle cx="15" cy="7" r="2" />
+      <circle cx="9" cy="17" r="2" />
+    </symbol>
+    <symbol id="icon-chef" viewBox="0 0 24 24">
+      <path d="M7 14a5 5 0 1 1 1-9 5 5 0 0 1 8 0 5 5 0 1 1 1 9v7H7Zm0 3h10" />
+    </symbol>
+    <symbol id="icon-chevron" viewBox="0 0 24 24">
+      <path d="m8 10 4 4 4-4" />
+    </symbol>
+    <symbol id="icon-print" viewBox="0 0 24 24">
+      <path d="M7 8V3h10v5M7 17H3V8h18v9h-4M7 14h10v7H7Z" />
+    </symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#" aria-label="Sprout home"><svg class="icon brand-icon">
+          <use href="#icon-leaf" />
+        </svg>sprout<span class="brand-dot">.</span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-link is-active" href="#recipes">Recipes</a>
+        <a class="nav-link" href="#philosophy">Our philosophy</a>
+      </nav>
+      <button class="saved-button" id="saved-toggle" type="button" aria-pressed="false"><svg class="icon">
+          <use href="#icon-heart" />
+        </svg><span>Saved recipes</span><span class="saved-count" id="saved-count">0</span></button>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero container" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="little-line"></span> GOOD FOOD. FEEL-GOOD DAYS.</p>
+        <h1 id="hero-title">Small ingredients.<br />Big <em>possibilities.</em></h1>
+        <p class="hero-description">A fresh take on everyday cooking. Find simple, nourishing recipes that make you
+          excited to eat well.</p>
+        <a class="button button-primary" href="#recipes">Find your next favorite <svg class="icon">
+            <use href="#icon-arrow" />
+          </svg></a>
+        <p class="hero-note"><svg class="icon">
+            <use href="#icon-leaf" />
+          </svg> A little inspiration for your everyday table.</p>
       </div>
-    </header>
+      <div class="hero-visual">
+        <div class="hero-orbit" aria-hidden="true"></div>
+        <img class="hero-image" src="./images/hero-bowl.jpg" width="600" height="600"
+          alt="A colorful bowl of fresh vegetables, grains, and greens" fetchpriority="high" />
+        <div class="hero-stamp" aria-hidden="true"><svg class="icon">
+            <use href="#icon-leaf" />
+          </svg><span>Fresh ideas.<br />Every day.</span></div>
+        <div class="hero-image-label"><span class="label-icon"><svg class="icon">
+              <use href="#icon-chef" />
+            </svg></span><span><strong>Simple feels good.</strong><small>Less fuss. More flavor.</small></span></div>
+        <svg class="hero-sprig" viewBox="0 0 110 110" fill="none" aria-hidden="true">
+          <path
+            d="M20 95C40 70 62 45 90 15M44 67C15 70 9 49 9 49s27-5 35 18ZM59 50C36 43 38 23 38 23s23 2 21 27ZM64 45C66 15 85 8 85 8s10 22-21 37ZM40 73C59 74 81 63 81 63s-1 26-41 10Z"
+            stroke="currentColor" stroke-width="1.7" />
+        </svg>
+      </div>
+    </section>
 
-    <main id="main-content">
-      <section class="hero container" aria-labelledby="hero-title">
-        <div class="hero-copy">
-          <p class="eyebrow"><span class="little-line"></span> GOOD FOOD. FEEL-GOOD DAYS.</p>
-          <h1 id="hero-title">Small ingredients.<br />Big <em>possibilities.</em></h1>
-          <p class="hero-description">A fresh take on everyday cooking. Find simple, nourishing recipes that make you excited to eat well.</p>
-          <a class="button button-primary" href="#recipes">Find your next favorite <svg class="icon"><use href="#icon-arrow"/></svg></a>
-          <p class="hero-note"><svg class="icon"><use href="#icon-leaf"/></svg> A little inspiration for your everyday table.</p>
+    <section class="recipe-section container" id="recipes" aria-labelledby="recipes-heading">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">A RECIPE FOR EVERY KIND OF DAY</p>
+          <h2 id="recipes-heading">What sounds good?</h2>
         </div>
-        <div class="hero-visual">
-          <div class="hero-orbit" aria-hidden="true"></div>
-          <img class="hero-image" src="./images/hero-bowl.jpg" width="600" height="600" alt="A colorful bowl of fresh vegetables, grains, and greens" fetchpriority="high" />
-          <div class="hero-stamp" aria-hidden="true"><svg class="icon"><use href="#icon-leaf"/></svg><span>Fresh ideas.<br />Every day.</span></div>
-          <div class="hero-image-label"><span class="label-icon"><svg class="icon"><use href="#icon-chef"/></svg></span><span><strong>Simple feels good.</strong><small>Less fuss. More flavor.</small></span></div>
-          <svg class="hero-sprig" viewBox="0 0 110 110" fill="none" aria-hidden="true"><path d="M20 95C40 70 62 45 90 15M44 67C15 70 9 49 9 49s27-5 35 18ZM59 50C36 43 38 23 38 23s23 2 21 27ZM64 45C66 15 85 8 85 8s10 22-21 37ZM40 73C59 74 81 63 81 63s-1 26-41 10Z" stroke="currentColor" stroke-width="1.7"/></svg>
+        <p class="section-intro">Fresh favorites, from our kitchen to yours.</p>
+      </div>
+      <form class="search-toolbar" id="search-form" role="search">
+        <div class="search-field"><svg class="icon">
+            <use href="#icon-search" />
+          </svg><label class="sr-only" for="recipe-search">Search by recipe or ingredient</label><input
+            id="recipe-search" name="search" type="search" placeholder="Find a recipe or ingredient…"
+            autocomplete="off" /><button class="search-submit" type="submit">Search <svg class="icon">
+              <use href="#icon-arrow" />
+            </svg></button></div>
+        <div class="time-filters"><span class="filter-caption"><svg class="icon">
+              <use href="#icon-sliders" />
+            </svg> Make time for good food</span>
+          <div class="select-wrap"><label class="sr-only" for="prep-time">Maximum prep time</label><select
+              id="prep-time">
+              <option value="">Prep time</option>
+              <option value="5">Up to 5 min</option>
+              <option value="10">Up to 10 min</option>
+              <option value="15">Up to 15 min</option>
+              <option value="30">Up to 30 min</option>
+            </select><svg class="icon">
+              <use href="#icon-chevron" />
+            </svg></div>
+          <div class="select-wrap"><label class="sr-only" for="cook-time">Maximum cook time</label><select
+              id="cook-time">
+              <option value="">Cook time</option>
+              <option value="0">No cooking</option>
+              <option value="15">Up to 15 min</option>
+              <option value="30">Up to 30 min</option>
+            </select><svg class="icon">
+              <use href="#icon-chevron" />
+            </svg></div>
         </div>
-      </section>
+      </form>
+      <div class="collection-toolbar">
+        <div class="category-list" role="group" aria-label="Recipe category"><button class="category-chip is-active"
+            type="button" data-category="All" aria-pressed="true">All recipes</button><button class="category-chip"
+            type="button" data-category="Breakfast" aria-pressed="false">Breakfast</button><button class="category-chip"
+            type="button" data-category="Lunch" aria-pressed="false">Lunch</button><button class="category-chip"
+            type="button" data-category="Dinner" aria-pressed="false">Dinner</button><button class="category-chip"
+            type="button" data-category="Snacks" aria-pressed="false">Snacks & treats</button></div>
+        <p class="result-count" id="result-count" role="status" aria-live="polite"></p>
+      </div>
+      <div class="active-filters" id="active-filters" hidden><span id="filter-summary"></span><button
+          class="text-button" id="clear-filters" type="button">Clear filters <svg class="icon">
+            <use href="#icon-close" />
+          </svg></button></div>
+      <div class="recipe-grid" id="recipe-grid"></div>
+      <div class="empty-state" id="empty-state" hidden><span class="empty-icon"><svg class="icon">
+            <use href="#icon-search" />
+          </svg></span>
+        <h3>No recipes on the table just yet.</h3>
+        <p id="empty-description">Try another ingredient or give your filters a little room.</p><button
+          class="button button-primary" id="reset-search" type="button">Explore all recipes <svg class="icon">
+            <use href="#icon-arrow" />
+          </svg></button>
+      </div>
+      <div class="load-more-wrap"><button class="button button-outline" id="load-more" type="button">A little more
+          inspiration <svg class="icon">
+            <use href="#icon-arrow" />
+          </svg></button>
+        <p id="collection-note">Good things are worth making.</p>
+      </div>
+    </section>
 
-      <section class="recipe-section container" id="recipes" aria-labelledby="recipes-heading">
-        <div class="section-heading">
-          <div><p class="eyebrow">A RECIPE FOR EVERY KIND OF DAY</p><h2 id="recipes-heading">What sounds good?</h2></div>
-          <p class="section-intro">Fresh favorites, from our kitchen to yours.</p>
-        </div>
-        <form class="search-toolbar" id="search-form" role="search">
-          <div class="search-field"><svg class="icon"><use href="#icon-search"/></svg><label class="sr-only" for="recipe-search">Search by recipe or ingredient</label><input id="recipe-search" name="search" type="search" placeholder="Find a recipe or ingredient…" autocomplete="off" /><button class="search-submit" type="submit">Search <svg class="icon"><use href="#icon-arrow"/></svg></button></div>
-          <div class="time-filters"><span class="filter-caption"><svg class="icon"><use href="#icon-sliders"/></svg> Make time for good food</span><div class="select-wrap"><label class="sr-only" for="prep-time">Maximum prep time</label><select id="prep-time"><option value="">Prep time</option><option value="5">Up to 5 min</option><option value="10">Up to 10 min</option><option value="15">Up to 15 min</option><option value="30">Up to 30 min</option></select><svg class="icon"><use href="#icon-chevron"/></svg></div><div class="select-wrap"><label class="sr-only" for="cook-time">Maximum cook time</label><select id="cook-time"><option value="">Cook time</option><option value="0">No cooking</option><option value="15">Up to 15 min</option><option value="30">Up to 30 min</option></select><svg class="icon"><use href="#icon-chevron"/></svg></div></div>
-        </form>
-        <div class="collection-toolbar"><div class="category-list" role="group" aria-label="Recipe category"><button class="category-chip is-active" type="button" data-category="All" aria-pressed="true">All recipes</button><button class="category-chip" type="button" data-category="Breakfast" aria-pressed="false">Breakfast</button><button class="category-chip" type="button" data-category="Lunch" aria-pressed="false">Lunch</button><button class="category-chip" type="button" data-category="Dinner" aria-pressed="false">Dinner</button><button class="category-chip" type="button" data-category="Snacks" aria-pressed="false">Snacks & treats</button></div><p class="result-count" id="result-count" role="status" aria-live="polite"></p></div>
-        <div class="active-filters" id="active-filters" hidden><span id="filter-summary"></span><button class="text-button" id="clear-filters" type="button">Clear filters <svg class="icon"><use href="#icon-close"/></svg></button></div>
-        <div class="recipe-grid" id="recipe-grid"></div>
-        <div class="empty-state" id="empty-state" hidden><span class="empty-icon"><svg class="icon"><use href="#icon-search"/></svg></span><h3>No recipes on the table just yet.</h3><p id="empty-description">Try another ingredient or give your filters a little room.</p><button class="button button-primary" id="reset-search" type="button">Explore all recipes <svg class="icon"><use href="#icon-arrow"/></svg></button></div>
-        <div class="load-more-wrap"><button class="button button-outline" id="load-more" type="button">A little more inspiration <svg class="icon"><use href="#icon-arrow"/></svg></button><p id="collection-note">Good things are worth making.</p></div>
-      </section>
+    <section class="philosophy container" id="philosophy" aria-labelledby="philosophy-heading">
+      <div class="philosophy-mark" aria-hidden="true"><svg class="icon">
+          <use href="#icon-leaf" />
+        </svg></div>
+      <div>
+        <p class="eyebrow">OUR EVERYDAY PHILOSOPHY</p>
+        <h2 id="philosophy-heading">Good food doesn't need to be complicated.</h2>
+        <p>A handful of real ingredients. A little curiosity. Something lovely to share. That's our kind of cooking.</p>
+      </div><a class="button button-outline" href="#recipes">Let's make something <svg class="icon">
+          <use href="#icon-arrow" />
+        </svg></a>
+    </section>
+  </main>
 
-      <section class="philosophy container" id="philosophy" aria-labelledby="philosophy-heading"><div class="philosophy-mark" aria-hidden="true"><svg class="icon"><use href="#icon-leaf"/></svg></div><div><p class="eyebrow">OUR EVERYDAY PHILOSOPHY</p><h2 id="philosophy-heading">Good food doesn't need to be complicated.</h2><p>A handful of real ingredients. A little curiosity. Something lovely to share. That's our kind of cooking.</p></div><a class="button button-outline" href="#recipes">Let's make something <svg class="icon"><use href="#icon-arrow"/></svg></a></section>
-    </main>
+  <footer class="site-footer container"><a class="brand" href="#" aria-label="Sprout home"><svg class="icon brand-icon">
+        <use href="#icon-leaf" />
+      </svg>sprout<span class="brand-dot">.</span></a>
+    <p>Good food, everyday.</p><a href="https://www.themealdb.com/documentation" target="_blank"
+      rel="noopener noreferrer">Made for TheMealDB <svg class="icon">
+        <use href="#icon-arrow" />
+      </svg></a>
+  </footer>
 
-    <footer class="site-footer container"><a class="brand" href="#" aria-label="Sprout home"><svg class="icon brand-icon"><use href="#icon-leaf"/></svg>sprout<span class="brand-dot">.</span></a><p>Good food, everyday.</p><a href="https://www.themealdb.com/documentation" target="_blank" rel="noopener noreferrer">Made for TheMealDB <svg class="icon"><use href="#icon-arrow"/></svg></a></footer>
+  <dialog class="recipe-dialog" id="recipe-dialog" aria-labelledby="detail-title"><button
+      class="icon-button dialog-close" id="close-recipe" type="button" aria-label="Close recipe"><svg class="icon">
+        <use href="#icon-close" />
+      </svg></button>
+    <div id="recipe-detail"></div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <noscript>
+    <p class="noscript-note">Enable JavaScript to explore the recipe collection.</p>
+  </noscript>
+  <script type="module" src="./src/main.ts"></script>
+</body>
 
-    <dialog class="recipe-dialog" id="recipe-dialog" aria-labelledby="detail-title"><button class="icon-button dialog-close" id="close-recipe" type="button" aria-label="Close recipe"><svg class="icon"><use href="#icon-close"/></svg></button><div id="recipe-detail"></div></dialog>
-    <div class="toast" id="toast" role="status" aria-live="polite"></div>
-    <noscript><p class="noscript-note">Enable JavaScript to explore the recipe collection.</p></noscript>
-    <script type="module" src="./src/main.ts"></script>
-  </body>
 </html>
