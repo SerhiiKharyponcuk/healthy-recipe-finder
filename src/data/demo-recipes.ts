@@ -1,0 +1,80 @@
+import type { Recipe } from '../types/recipe';
+
+// Design fixtures only. Replace this file with your team's API data.
+// Photography is illustrative; these are not responses from TheMealDB.
+export const demoRecipes: Recipe[] = [
+  {
+    id: 'chickpea-salad',
+    title: 'Mediterranean Chickpea Salad',
+    description: 'Crisp vegetables, bright herbs, and a lemony little lift.',
+    image: 'chickpea-salad.jpg',
+    imageAlt: 'A fresh vegetable salad with colorful seasonal toppings',
+    category: 'Lunch', label: 'Fresh & colorful', prepMinutes: 10, cookMinutes: 0, servings: 2,
+    ingredients: ['1 can chickpeas, drained and rinsed', '1 small cucumber, diced', '1 cup cherry tomatoes, halved', '½ red bell pepper, diced', '¼ red onion, finely chopped', '2 tbsp fresh parsley, chopped', '2 tbsp extra-virgin olive oil', '1 tbsp fresh lemon juice', 'Salt and black pepper, to taste'],
+    instructions: ['Add the chickpeas, cucumber, tomatoes, bell pepper, red onion, and parsley to a large bowl.', 'Whisk the olive oil and lemon juice together in a small bowl.', 'Pour over the salad, season with salt and pepper, and toss gently.', 'Serve right away, or chill briefly to let the flavors get to know each other.'],
+  },
+  {
+    id: 'avocado-toast', title: 'Avocado & Tomato Toast',
+    description: 'Creamy avocado, juicy tomatoes, and the perfect crunch.',
+    image: 'avocado-toast.jpg', imageAlt: 'Rustic toast topped with avocado and fresh ingredients',
+    category: 'Breakfast', label: 'A brighter morning', prepMinutes: 5, cookMinutes: 5, servings: 1,
+    ingredients: ['2 slices wholegrain bread', '1 ripe avocado', '½ cup cherry tomatoes, halved', '1 tsp lemon juice', 'A pinch of chili flakes', 'Salt and black pepper, to taste'],
+    instructions: ['Toast the bread until golden and crisp.', 'Mash the avocado with the lemon juice and a pinch of salt.', 'Spread over the warm toast and top with tomatoes.', 'Finish with chili flakes and freshly ground pepper.'],
+  },
+  {
+    id: 'lemon-salmon', title: 'One-Pan Lemon & Garlic Salmon',
+    description: 'Golden salmon, tender greens, and very little washing up.',
+    image: 'lemon-salmon.jpg', imageAlt: 'Salmon served with green vegetables and lemon',
+    category: 'Dinner', label: 'Weeknight favorite', prepMinutes: 5, cookMinutes: 15, servings: 2,
+    ingredients: ['2 salmon fillets', '1 bunch asparagus, trimmed', '1 lemon, sliced', '2 garlic cloves, minced', '1 tbsp olive oil', 'Salt and black pepper, to taste'],
+    instructions: ['Heat the oven to 200°C and line a baking tray.', 'Arrange the salmon and asparagus on the tray. Drizzle with olive oil.', 'Scatter over the garlic, season, and lay the lemon slices on top.', 'Roast until the asparagus is tender and the salmon reaches a safe internal temperature. Check with a food thermometer.'],
+  },
+  {
+    id: 'veggie-bowl', title: 'The Everyday Veggie Bowl',
+    description: 'A bowl full of good things, with a creamy tahini drizzle.',
+    image: 'veggie-bowl.jpg', imageAlt: 'A nourishing bowl filled with grains and vegetables',
+    category: 'Lunch', label: 'Plant-powered', prepMinutes: 10, cookMinutes: 20, servings: 2,
+    ingredients: ['1 cup quinoa, rinsed', '1 sweet potato, cubed', '1 avocado, sliced', '2 cups baby spinach', '½ cup chickpeas', '2 tbsp tahini', '1 tbsp lemon juice', '1 tbsp olive oil'],
+    instructions: ['Cook the quinoa according to the packet instructions.', 'Toss the sweet potato with olive oil and roast at 200°C until tender.', 'Whisk the tahini and lemon juice with a splash of water.', 'Divide the quinoa, vegetables, avocado, and chickpeas between bowls. Drizzle with the dressing.'],
+  },
+  {
+    id: 'black-bean-tacos', title: 'Sweet Potato & Black Bean Tacos',
+    description: 'A little smoky, a little zesty. A whole lot to love.',
+    image: 'black-bean-tacos.jpg', imageAlt: 'Freshly prepared tacos with colorful toppings',
+    category: 'Dinner', label: 'Made to share', prepMinutes: 10, cookMinutes: 20, servings: 3,
+    ingredients: ['6 small corn tortillas', '1 large sweet potato, diced', '1 can black beans, drained', '1 tsp smoked paprika', '1 avocado, sliced', '1 lime', 'Fresh coriander', '1 tbsp olive oil'],
+    instructions: ['Coat the sweet potato in olive oil and smoked paprika. Roast at 200°C until tender.', 'Warm the black beans gently in a small saucepan.', 'Warm the tortillas in a dry pan.', 'Fill with sweet potato, beans, and avocado. Add coriander and a squeeze of lime.'],
+  },
+  {
+    id: 'berry-parfait', title: 'Greek Yogurt & Berry Parfait',
+    description: 'Creamy layers, sweet berries, and a golden granola crunch.',
+    image: 'berry-parfait.jpg', imageAlt: 'A creamy berry dessert topped with fresh fruit',
+    category: 'Snacks', label: 'A sweet little moment', prepMinutes: 5, cookMinutes: 0, servings: 1,
+    ingredients: ['¾ cup plain Greek yogurt', '½ cup mixed berries', '¼ cup granola', '1 tsp honey', 'Fresh mint, optional'],
+    instructions: ['Spoon half the yogurt into a glass or small bowl.', 'Add a layer of berries and granola.', 'Repeat the layers, then finish with a drizzle of honey.', 'Add a little mint if you like and enjoy straight away.'],
+  },
+  {
+    id: 'green-pasta', title: 'Garden Greens & Pesto Pasta',
+    description: 'Your favorite pasta, dressed up in something green.',
+    image: 'green-pasta.jpg', imageAlt: 'Pasta tossed with fresh green pesto and herbs',
+    category: 'Dinner', label: 'Comfort, made fresh', prepMinutes: 5, cookMinutes: 15, servings: 2,
+    ingredients: ['180 g pasta', '3 tbsp basil pesto', '1 cup baby spinach', '½ cup green peas', '2 tbsp grated parmesan', '½ lemon'],
+    instructions: ['Cook the pasta in salted water, adding the peas for the final two minutes.', 'Reserve a cup of cooking water before draining.', 'Toss the pasta with pesto, spinach, and a splash of cooking water.', 'Finish with parmesan, lemon zest, and a squeeze of lemon juice.'],
+  },
+  {
+    id: 'breakfast-bowl', title: 'A Fresh Start Breakfast Bowl',
+    description: 'Fruit, grains, and all the makings of a lovely morning.',
+    image: 'breakfast-bowl.jpg', imageAlt: 'A breakfast spread with fresh fruit and wholesome ingredients',
+    category: 'Breakfast', label: 'Slow morning energy', prepMinutes: 10, cookMinutes: 0, servings: 1,
+    ingredients: ['½ cup rolled oats', '¾ cup milk of choice', '½ banana, sliced', '½ cup seasonal fruit', '1 tbsp mixed seeds', '1 tsp maple syrup'],
+    instructions: ['Stir the oats and milk together. Refrigerate overnight to soften.', 'Spoon the oats into your favorite bowl.', 'Top with banana, seasonal fruit, and seeds.', 'Finish with maple syrup and take a moment to enjoy your morning.'],
+  },
+  {
+    id: 'pancakes', title: 'Sunday Morning Pancakes',
+    description: 'Fluffy little stacks for mornings that deserve a pause.',
+    image: 'pancakes.jpg', imageAlt: 'A stack of fluffy pancakes with fresh fruit',
+    category: 'Breakfast', label: 'Weekend ritual', prepMinutes: 10, cookMinutes: 15, servings: 2,
+    ingredients: ['1 cup flour', '1 tsp baking powder', '1 egg', '¾ cup milk', '1 tbsp melted butter', 'Fresh berries and maple syrup, to serve'],
+    instructions: ['Combine the flour and baking powder in a bowl.', 'Whisk the egg, milk, and butter together, then gently fold into the dry ingredients.', 'Cook small ladles of batter in a lightly greased pan until golden on both sides.', 'Stack up and serve with berries and maple syrup.'],
+  },
+];

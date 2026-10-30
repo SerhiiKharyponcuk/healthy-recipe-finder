@@ -1,0 +1,60 @@
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 17px; min-height: 44px; padding: 12px 21px; border: 1px solid transparent; border-radius: var(--radius-small); font-size: 12px; font-weight: 600; transition: background var(--ease), transform var(--ease), border-color var(--ease); }
+.button .icon { width: 16px; height: 16px; }
+.button-primary { background: var(--color-forest); color: #fff; }
+.button-primary:hover { background: var(--color-forest-dark); transform: translateY(-1px); }
+.button-outline { background: transparent; color: var(--color-forest); border-color: #c6cfba; }
+.button-outline:hover { background: var(--color-sage); border-color: var(--color-forest); }
+.saved-button { display: flex; align-items: center; justify-content: center; min-height: 42px; padding: 8px 12px; gap: 9px; background: transparent; font-size: 12px; border: 1px solid var(--color-border); border-radius: var(--radius-small); transition: background var(--ease); }
+.saved-button:hover, .saved-button[aria-pressed='true'] { background: var(--color-sage); }
+.saved-button .icon { width: 17px; height: 17px; }
+.saved-count { min-width: 20px; padding: 1px 5px; border-radius: 50%; background: #e9eddf; font-size: 10px; }
+.saved-button[aria-pressed='true'] .icon { fill: currentColor; }
+.search-submit { display: inline-flex; gap: 10px; align-items: center; flex-shrink: 0; padding: 9px 13px; background: #eef1e6; color: var(--color-forest); font-size: 10px; font-weight: 600; border-radius: 6px; }
+.search-submit:hover { background: var(--color-lime); }
+.search-submit .icon { width: 14px; height: 14px; }
+.select-wrap { position: relative; }
+.select-wrap select { appearance: none; width: 128px; min-height: 38px; background: #fff; color: #66715f; font-size: 11px; padding: 8px 30px 8px 12px; border: 1px solid var(--color-border); border-radius: 6px; }
+.select-wrap > .icon { position: absolute; width: 16px; height: 16px; right: 9px; top: 11px; pointer-events: none; color: #6f7a68; }
+.category-chip { padding: 8px 17px; min-height: 38px; font-size: 11px; border: 1px solid var(--color-border); border-radius: 50px; background: transparent; color: #6c7566; transition: background var(--ease), color var(--ease); }
+.category-chip:hover { background: var(--color-sage); }
+.category-chip.is-active { color: #fff; background: var(--color-forest); border-color: var(--color-forest); }
+.text-button { display: inline-flex; align-items: center; gap: 5px; background: transparent; color: var(--color-forest); font-size: 11px; text-decoration: underline; text-underline-offset: 3px; padding: 5px 0; }
+.text-button .icon { width: 13px; height: 13px; }
+.icon-button { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: #fffdf8; color: var(--color-forest); transition: background var(--ease), transform var(--ease); }
+.icon-button:hover { transform: scale(1.07); background: var(--color-lime); }
+.recipe-card { display: flex; flex-direction: column; min-width: 0; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-card); overflow: hidden; transition: box-shadow var(--ease), transform var(--ease); }
+.recipe-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }
+.card-image-wrap { position: relative; aspect-ratio: 1.51; margin: 7px 7px 0; overflow: hidden; border-radius: 11px; background: var(--color-sage); }
+.card-image-link { display: block; height: 100%; width: 100%; padding: 0; background: transparent; }
+.card-image { height: 100%; transition: transform 500ms ease; }
+.recipe-card:hover .card-image { transform: scale(1.04); }
+.card-label { position: absolute; top: 12px; left: 12px; padding: 4px 10px; background: #fffdf3f0; backdrop-filter: blur(8px); color: #46603b; border-radius: 30px; font-size: 9px; font-weight: 600; pointer-events: none; }
+.card-save { position: absolute; top: 10px; right: 10px; width: 33px; height: 33px; background: #fffdf3f0; }
+.card-save .icon { width: 16px; height: 16px; }
+.card-save[aria-pressed='true'] { background: var(--color-forest); color: #fff; }
+.card-save[aria-pressed='true'] .icon { fill: currentColor; }
+.card-body { display: flex; flex-direction: column; flex: 1; padding: 17px 18px 15px; }
+.card-category { text-transform: uppercase; color: #869174; font-size: 8px; letter-spacing: 1.3px; font-weight: 700; margin-bottom: 8px; }
+.card-title { font-family: var(--font-display); font-size: 23px; letter-spacing: -.5px; line-height: 1.2; }
+.title-button { font: inherit; color: inherit; text-align: left; padding: 0; background: transparent; }
+.title-button:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.card-description { margin-top: 10px; color: #697362; font-size: 13px; line-height: 1.7; }
+.card-meta { display: flex; flex-wrap: wrap; gap: 11px; color: #63725a; font-size: 11px; margin-top: auto; padding-top: 18px; padding-bottom: 14px; }
+.card-meta > span { display: inline-flex; gap: 4px; align-items: center; }
+.card-meta .icon { width: 13px; height: 13px; }
+.card-footer { display: flex; justify-content: space-between; gap: 10px; align-items: center; border-top: 1px solid #eceee5; padding-top: 12px; }
+.card-footer > span { font-size: 10px; color: #737e68; }
+.recipe-link { display: inline-flex; align-items: center; gap: 12px; padding: 0; background: transparent; color: var(--color-forest); font-size: 11px; font-weight: 600; }
+.recipe-link .icon { width: 15px; height: 15px; transition: transform var(--ease); }
+.recipe-link:hover .icon { transform: translateX(4px); }
+.empty-state { text-align: center; padding: 50px 15px; border: 1px dashed #cbd4bd; border-radius: var(--radius-card); background: #f4f5ed; }
+.empty-icon { display: grid; place-items: center; width: 56px; height: 56px; margin: 0 auto 20px; border-radius: 50%; background: #e4ead9; }
+.empty-state h3 { font-family: var(--font-display); font-size: 28px; }
+.empty-state p { color: var(--color-muted); font-size: 13px; margin-block: 12px 22px; }
+.toast { position: fixed; left: 50%; bottom: 24px; z-index: 50; transform: translate(-50%, 24px); opacity: 0; pointer-events: none; color: #fff; background: var(--color-forest-dark); padding: 12px 22px; border-radius: 9px; font-size: 12px; box-shadow: var(--shadow-card); transition: opacity var(--ease), transform var(--ease); max-width: calc(100% - 32px); width: max-content; }
+.toast.is-visible { opacity: 1; transform: translate(-50%, 0); }
+/* Reusable states for the team's future asynchronous API implementation. */
+.is-loading { pointer-events: none; }
+.skeleton { background: linear-gradient(100deg, #e9ecdf 30%, #f7f8f1 45%, #e9ecdf 60%); background-size: 200% 100%; animation: shimmer 1.6s infinite linear; border-radius: 8px; min-height: 16px; }
+.error-state { padding: 24px; color: #7a3d2d; background: #fbefe8; border: 1px solid #e8c6b8; border-radius: 12px; }
+@keyframes shimmer { to { background-position: -200% 0; } }
