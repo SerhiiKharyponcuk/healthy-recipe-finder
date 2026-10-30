@@ -10,7 +10,7 @@
 
 Workflow `.github/workflows/deploy.yml` збирає й публікує сайт після кожного пушу в `main`. У **Settings → Pages → Source** потрібно обрати **GitHub Actions**. У поточному безкоштовному плані GitHub репозиторій має бути публічним.
 
-Для локального перегляду production-збірки відкрийте http://127.0.0.1:4173/healthy-recipe-finder/ після `npm run preview`. Девсервер залишається на http://127.0.0.1:5173/.
+Для локального перегляду production-збірки відкрийте http://127.0.0.1:4173/healthy-recipe-finder/ після `npm run preview`.
 
 ## Запуск
 
@@ -21,7 +21,7 @@ npm ci
 npm run dev
 ```
 
-Адреса за замовчуванням: http://127.0.0.1:5173
+Адреса за замовчуванням: http://127.0.0.1:5173/healthy-recipe-finder/
 
 ```sh
 npm run typecheck  # перевірка TypeScript

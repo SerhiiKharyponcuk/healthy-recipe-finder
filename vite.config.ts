@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
 
-export default defineConfig(({ command }) => ({
-  base: command === 'build' ? '/healthy-recipe-finder/' : '/',
-}));
+export default defineConfig({
+  base: '/healthy-recipe-finder/',
+});
