@@ -44,21 +44,21 @@ function card(recipe: MealDBMeal): string {
   const isSaved = saved.has(recipe.idMeal);
   return `<article class="recipe-card">
     <div class="card-image-wrap">
-      <button class="card-image-link" type="button" data-open="${recipe.idMeal}" aria-label="View ${escape(recipe.strMeal)}"><img class="card-image" src="${imagePath(recipe.strMealThumb)}" alt="${escape(recipe.strTags)}" width="600" height="400" loading="lazy" decoding="async" /></button>
-      <span class="card-label">${escape(recipe.strCategory)}</span>
-      <button class="icon-button card-save" type="button" data-save="${recipe.idMeal}" aria-label="${isSaved ? 'Unsave' : 'Save'} ${escape(recipe.strMeal)}" aria-pressed="${isSaved}">${icon('heart')}</button>
+      <button class="card-image-link" type="button" data-open="${recipe.idMeal}" aria-label="View ${recipe.strMeal}"><img class="card-image" src="${recipe.strMealThumb}" alt="${recipe.strTags}" width="600" height="400" loading="lazy" decoding="async" /></button>
+      <span class="card-label">${recipe.strCategory}</span>
+      <button class="icon-button card-save" type="button" data-save="${recipe.idMeal}" aria-label="${isSaved ? 'Unsave' : 'Save'} ${recipe.strMeal}" aria-pressed="${isSaved}">${icon('heart')}</button>
     </div>
     <div class="card-body">
       <p class="card-category">${recipe.strCategory === 'Snacks' ? 'Snacks & treats' : recipe.strCategory}</p>
-      <h3 class="card-title"><button class="title-button" type="button" data-open="${recipe.idMeal}">${escape(recipe.strMeal)}</button></h3>
-      <p class="card-description">${escape(recipe.strInstructions)}</p>
+      <h3 class="card-title"><button class="title-button" type="button" data-open="${recipe.idMeal}">${recipe.strMeal}</button></h3>
+      
     </div>
   </article>`;
 }
-
+// <p class="card-description">${recipe.strInstructions}</p>
 async function render(): Promise<void> {
   const query = normalize(search.value);
-  const randomRecipe = (await fetchMealData()).meals;
+  const randomRecipe = (await fetchMealData(query)).meals;
   console.log('Random Recipe:', randomRecipe);
   if (randomRecipe === null){
     throw new Error("no riceps finded")
@@ -114,13 +114,13 @@ function showRecipe(recipe: Recipe, trigger: HTMLElement): void {
   lastTrigger = trigger;
   openRecipe = recipe;
   element('#recipe-detail').innerHTML = `<div class="detail-hero">
-    <img class="detail-image" src="${imagePath(recipe.image)}" alt="${escape(recipe.imageAlt)}" width="600" height="600" />
-    <div class="detail-intro"><p class="eyebrow">${escape(recipe.category.toUpperCase())} · ${escape(recipe.label.toUpperCase())}</p><h2 id="detail-title">${escape(recipe.title)}</h2><p class="detail-description">${escape(recipe.description)}</p>
+    <img class="detail-image" src="${recipe.image}" alt="${recipe.imageAlt}" width="600" height="600" />
+    <div class="detail-intro"><p class="eyebrow">${recipe.category.toUpperCase()} · ${recipe.label.toUpperCase()}</p><h2 id="detail-title">${recipe.title}</h2><p class="detail-description">${recipe.description}</p>
       <div class="detail-meta"><div>${icon('clock')}<span><strong>${recipe.prepMinutes} min</strong><small>Prep time</small></span></div><div>${icon('chef')}<span><strong>${recipe.cookMinutes} min</strong><small>Cook time</small></span></div><div>${icon('users')}<span><strong>${recipe.servings}</strong><small>Servings</small></span></div></div>
       <div class="detail-actions"><button class="button button-primary" id="detail-save" type="button" aria-pressed="false"></button><button class="button button-outline" id="print-recipe" type="button">${icon('print')}Print recipe</button></div>
     </div>
-  </div><div class="detail-content"><section aria-labelledby="ingredients-title"><h3 id="ingredients-title">A few good ingredients</h3><p class="detail-helper">Tap to check things off as you go.</p><ul class="ingredient-list">${recipe.ingredients.map((ingredient) => `<li><label><input type="checkbox" /><span>${escape(ingredient)}</span></label></li>`).join('')}</ul></section>
-  <section aria-labelledby="instructions-title"><h3 id="instructions-title">Let's make it</h3><ol class="instruction-list">${recipe.instructions.map((step) => `<li><span>${escape(step)}</span></li>`).join('')}</ol><p class="detail-note">Make it yours. A little extra lemon, your favorite herbs, a seat at the table.</p></section></div>`;
+  </div><div class="detail-content"><section aria-labelledby="ingredients-title"><h3 id="ingredients-title">A few good ingredients</h3><p class="detail-helper">Tap to check things off as you go.</p><ul class="ingredient-list">${recipe.ingredients.map((ingredient) => `<li><label><input type="checkbox" /><span>${ingredient}</span></label></li>`).join('')}</ul></section>
+  <section aria-labelledby="instructions-title"><h3 id="instructions-title">Let's make it</h3><ol class="instruction-list">${recipe.instructions.map((step) => `<li><span>${step}</span></li>`).join('')}</ol><p class="detail-note">Make it yours. A little extra lemon, your favorite herbs, a seat at the table.</p></section></div>`;
   updateDetailSave();
   element('#detail-save').addEventListener('click', () => toggleSaved(recipe.id));
   element('#print-recipe').addEventListener('click', () => window.print());
@@ -147,15 +147,38 @@ grid.addEventListener('click', (event) => {
     grid.querySelector<HTMLButtonElement>(`[data-save="${id}"]`)?.focus({ preventScroll: true });
     return;
   }
-  const trigger = target?.closest<HTMLButtonElement>('[data-open]');
-  const recipe = demoRecipes.find((item) => item.id === trigger?.dataset.open);
-  if (recipe && trigger) showRecipe(recipe, trigger);
+  const nashiDani = (async (): Promise<void> => {
+    const query = normalize(search.value);
+    const randomRecipe = (await fetchMealData(query)).meals;
+    if (randomRecipe === null){
+      throw new Error("no riceps finded")
+    }
+      const trigger = target?.closest<HTMLButtonElement>('[data-open]');
+      const recipe = randomRecipe.find((item) => item.idMeal === trigger?.dataset.open);
+      if (recipe && trigger) {
+        showRecipe({
+          id: recipe.idMeal,
+          title: recipe.strMeal,
+          description: recipe.strInstructions,
+          image: recipe.strMealThumb,
+          imageAlt: recipe.strTags,
+          category: recipe.strCategory as 'Breakfast' | 'Lunch' | 'Dinner' | 'Snacks',
+          label: recipe.strTags,
+          prepMinutes: 0, // Demo data; replace with actual prep time if available
+          cookMinutes: 0, // Demo data; replace with actual cook time if available
+          servings: 1,    // Demo data; replace with actual servings if available
+          ingredients: [], // Demo data; replace with actual ingredients if available
+          instructions: [recipe.strInstructions], // Using the instructions from the API
+        }, trigger);
+      }
+  })();
 });
+
 
 element('#search-form').addEventListener('submit', (event) => { event.preventDefault(); visibleCount = 6; render(); });
 search.addEventListener('input', () => { visibleCount = 6; render(); });
 [prep, cook].forEach((select) => select.addEventListener('change', () => { visibleCount = 6; render(); }));
-document.querySelectorAll<HTMLButtonElement>('[data-category]').forEach((button) => button.addEventListener('click', () => { category = button.dataset.category ?? 'All'; visibleCount = 6; render(); }));
+document.querySelectorAll<HTMLButtonElement>('[data-category]').forEach((button) => button.addEventListener('click', () => { category = button.dataset.category ?? 'All'; visibleCount = 6}));
 savedToggle.addEventListener('click', () => { savedOnly = !savedOnly; visibleCount = 6; render(); element('#recipes').scrollIntoView({ behavior: 'smooth' }); });
 element('#clear-filters').addEventListener('click', () => { resetFilters(); search.focus({ preventScroll: true }); });
 element('#reset-search').addEventListener('click', () => { resetFilters(); search.focus({ preventScroll: true }); });
