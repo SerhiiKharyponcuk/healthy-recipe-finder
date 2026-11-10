@@ -57,4 +57,5 @@
 .is-loading { pointer-events: none; }
 .skeleton { background: linear-gradient(100deg, #e9ecdf 30%, #f7f8f1 45%, #e9ecdf 60%); background-size: 200% 100%; animation: shimmer 1.6s infinite linear; border-radius: 8px; min-height: 16px; }
 .error-state { padding: 24px; color: #7a3d2d; background: #fbefe8; border: 1px solid #e8c6b8; border-radius: 12px; }
+.error-state .button { margin-top: 12px; }
 @keyframes shimmer { to { background-position: -200% 0; } }

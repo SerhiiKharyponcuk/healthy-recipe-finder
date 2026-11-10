@@ -56,6 +56,15 @@
     <symbol id="icon-print" viewBox="0 0 24 24">
       <path d="M7 8V3h10v5M7 17H3V8h18v9h-4M7 14h10v7H7Z" />
     </symbol>
+    <symbol id="icon-basket" viewBox="0 0 24 24">
+      <path d="M3 10h18l-2 10H5L3 10ZM8 10l4-7 4 7M9 14v2m6-2v2" />
+    </symbol>
+    <symbol id="icon-sparkle" viewBox="0 0 24 24">
+      <path d="M12 2l2.7 7.3L22 12l-7.3 2.7L12 22l-2.7-7.3L2 12l7.3-2.7L12 2Z" />
+    </symbol>
+    <symbol id="icon-link" viewBox="0 0 24 24">
+      <path d="m10 13 4-4m-6 7-1 1a4 4 0 0 1-6-6l4-4a4 4 0 0 1 6 0m2 2 1-1a4 4 0 0 1 6 6l-4 4a4 4 0 0 1-6 0" transform="translate(1 0)" />
+    </symbol>
   </svg>
 
   <header class="site-header">
@@ -67,25 +76,31 @@
         <a class="nav-link is-active" href="#recipes">Recipes</a>
         <a class="nav-link" href="#philosophy">Our philosophy</a>
       </nav>
-      <button class="saved-button" id="saved-toggle" type="button" aria-pressed="false"><svg class="icon">
-          <use href="#icon-heart" />
-        </svg><span>Saved recipes</span><span class="saved-count" id="saved-count">0</span></button>
+      <div class="header-actions">
+        <button class="saved-button" id="saved-toggle" type="button" aria-pressed="false" aria-label="Saved recipes">
+          <svg class="icon" aria-hidden="true"><use href="#icon-heart" /></svg>
+          <span class="action-label">Saved</span><span class="saved-count" id="saved-count" aria-hidden="true">0</span>
+        </button>
+        <button class="saved-button shopping-button" id="shopping-toggle" type="button" aria-label="Shopping list" aria-haspopup="dialog">
+          <svg class="icon" aria-hidden="true"><use href="#icon-basket" /></svg>
+          <span class="action-label">Shopping list</span><span class="saved-count" id="shopping-count" aria-hidden="true">0</span>
+        </button>
+      </div>
     </div>
   </header>
 
   <main id="main-content">
     <section class="hero container" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="eyebrow"><span class="little-line"></span> GOOD FOOD. FEEL-GOOD DAYS.</p>
-        <h1 id="hero-title">Small ingredients.<br />Big <em>possibilities.</em></h1>
-        <p class="hero-description">A fresh take on everyday cooking. Find simple, nourishing recipes that make you
-          excited to eat well.</p>
-        <a class="button button-primary" href="#recipes">Find your next favorite <svg class="icon">
-            <use href="#icon-arrow" />
-          </svg></a>
-        <p class="hero-note"><svg class="icon">
-            <use href="#icon-leaf" />
-          </svg> A little inspiration for your everyday table.</p>
+        <p class="eyebrow"><span class="little-line"></span> THE EVERYDAY COOKBOOK</p>
+        <h1 id="hero-title">What’s cooking <em>tonight?</em></h1>
+        <p class="hero-description">Find a recipe you’ll want to make again. Save your favorites, take the ingredients shopping, and cook one step at a time.</p>
+        <div class="hero-actions">
+          <a class="button button-primary hero-primary" href="#recipes">Explore recipes <svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg></a>
+          <button class="button hero-secondary" id="surprise-recipe" type="button">
+            <svg class="icon" aria-hidden="true"><use href="#icon-sparkle" /></svg><span>Surprise me</span>
+          </button>
+        </div>
       </div>
       <div class="hero-visual">
         <div class="hero-orbit" aria-hidden="true"></div>
@@ -94,9 +109,9 @@
         <div class="hero-stamp" aria-hidden="true"><svg class="icon">
             <use href="#icon-leaf" />
           </svg><span>Fresh ideas.<br />Every day.</span></div>
-        <div class="hero-image-label"><span class="label-icon"><svg class="icon">
-              <use href="#icon-chef" />
-            </svg></span><span><strong>Simple feels good.</strong><small>Less fuss. More flavor.</small></span></div>
+        <div class="hero-image-label"><span class="label-icon"><svg class="icon" aria-hidden="true"><use href="#icon-chef" /></svg></span>
+          <span><strong>From browse to table</strong><small>Find it. Shop it. Cook it.</small></span>
+        </div>
         <svg class="hero-sprig" viewBox="0 0 110 110" fill="none" aria-hidden="true">
           <path
             d="M20 95C40 70 62 45 90 15M44 67C15 70 9 49 9 49s27-5 35 18ZM59 50C36 43 38 23 38 23s23 2 21 27ZM64 45C66 15 85 8 85 8s10 22-21 37ZM40 73C59 74 81 63 81 63s-1 26-41 10Z"
@@ -108,50 +123,36 @@
     <section class="recipe-section container" id="recipes" aria-labelledby="recipes-heading">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">A RECIPE FOR EVERY KIND OF DAY</p>
-          <h2 id="recipes-heading">What sounds good?</h2>
+          <p class="eyebrow" id="catalog-kicker">THE RECIPE COLLECTION</p>
+          <h2 id="recipes-heading">Find your next favorite.</h2>
         </div>
-        <p class="section-intro">Fresh favorites, from our kitchen to yours.</p>
+        <p class="section-intro">Start with a recipe name, an ingredient, or a cuisine you love.</p>
       </div>
       <form class="search-toolbar" id="search-form" role="search">
         <div class="search-field"><svg class="icon">
             <use href="#icon-search" />
-          </svg><label class="sr-only" for="recipe-search">Search by recipe or ingredient</label><input
-            id="recipe-search" name="search" type="search" placeholder="Find a recipe or ingredient…"
+          </svg><label class="sr-only" for="recipe-search">Search recipes</label><input
+            id="recipe-search" name="search" type="search" placeholder="Search recipes by name…"
             autocomplete="off" /><button class="search-submit" type="submit">Search <svg class="icon">
               <use href="#icon-arrow" />
             </svg></button></div>
-        <div class="time-filters"><span class="filter-caption"><svg class="icon">
-              <use href="#icon-sliders" />
-            </svg> Make time for good food</span>
-          <div class="select-wrap"><label class="sr-only" for="prep-time">Maximum prep time</label><select
-              id="prep-time">
-              <option value="">Prep time</option>
-              <option value="5">Up to 5 min</option>
-              <option value="10">Up to 10 min</option>
-              <option value="15">Up to 15 min</option>
-              <option value="30">Up to 30 min</option>
-            </select><svg class="icon">
-              <use href="#icon-chevron" />
-            </svg></div>
-          <div class="select-wrap"><label class="sr-only" for="cook-time">Maximum cook time</label><select
-              id="cook-time">
-              <option value="">Cook time</option>
-              <option value="0">No cooking</option>
-              <option value="15">Up to 15 min</option>
-              <option value="30">Up to 30 min</option>
-            </select><svg class="icon">
-              <use href="#icon-chevron" />
-            </svg></div>
+        <div class="catalog-filters">
+          <label>Search by
+            <select id="search-mode">
+              <option value="name">Recipe name</option><option value="ingredient">Ingredient</option>
+            </select>
+          </label>
+          <label>Category <select id="category-filter"><option value="">All categories</option></select></label>
+          <label>Cuisine <select id="cuisine-filter"><option value="">All cuisines</option></select></label>
+          <label>Sort by
+            <select id="sort-recipes">
+              <option value="featured">Default order</option><option value="az">Name A–Z</option><option value="za">Name Z–A</option>
+            </select>
+          </label>
         </div>
       </form>
       <div class="collection-toolbar">
-        <div class="category-list" role="group" aria-label="Recipe category"><button class="category-chip is-active"
-            type="button" data-category="All" aria-pressed="true">All recipes</button><button class="category-chip"
-            type="button" data-category="Breakfast" aria-pressed="false">Breakfast</button><button class="category-chip"
-            type="button" data-category="Lunch" aria-pressed="false">Lunch</button><button class="category-chip"
-            type="button" data-category="Dinner" aria-pressed="false">Dinner</button><button class="category-chip"
-            type="button" data-category="Snacks" aria-pressed="false">Snacks & treats</button></div>
+        <div class="category-list" id="recipe-categories" role="group" aria-label="Recipe category" hidden></div>
         <p class="result-count" id="result-count" role="status" aria-live="polite"></p>
       </div>
       <div class="active-filters" id="active-filters" hidden><span id="filter-summary"></span><button
@@ -159,6 +160,10 @@
             <use href="#icon-close" />
           </svg></button></div>
       <div class="recipe-grid" id="recipe-grid"></div>
+      <div class="error-state" id="recipe-error" hidden>
+        <p id="recipe-error-message" role="alert"></p>
+        <button class="button button-outline" id="retry-recipes" type="button">Try again</button>
+      </div>
       <div class="empty-state" id="empty-state" hidden><span class="empty-icon"><svg class="icon">
             <use href="#icon-search" />
           </svg></span>
@@ -168,11 +173,11 @@
             <use href="#icon-arrow" />
           </svg></button>
       </div>
-      <div class="load-more-wrap"><button class="button button-outline" id="load-more" type="button">A little more
-          inspiration <svg class="icon">
-            <use href="#icon-arrow" />
-          </svg></button>
-        <p id="collection-note">Good things are worth making.</p>
+      <div class="load-more-wrap">
+        <button class="button button-outline" id="load-more" type="button" hidden>
+          <span>Show more recipes</span><svg class="icon" aria-hidden="true"><use href="#icon-arrow" /></svg>
+        </button>
+        <p id="collection-note"></p>
       </div>
     </section>
 
@@ -204,6 +209,28 @@
         <use href="#icon-close" />
       </svg></button>
     <div id="recipe-detail"></div>
+  </dialog>
+  <dialog class="recipe-dialog shopping-dialog" id="shopping-dialog" aria-labelledby="shopping-title">
+    <button class="icon-button dialog-close" id="close-shopping" type="button" aria-label="Close shopping list">
+      <svg class="icon" aria-hidden="true"><use href="#icon-close" /></svg>
+    </button>
+    <div class="shopping-content">
+      <p class="eyebrow">YOUR KITCHEN COMPANION</p>
+      <h2 id="shopping-title">Shopping list</h2>
+      <p id="shopping-status" class="shopping-status" role="status"></p>
+      <form id="shopping-form" class="shopping-form">
+        <label class="sr-only" for="shopping-item">Add an item</label>
+        <input id="shopping-item" name="item" type="text" placeholder="Add an item…" maxlength="120" required />
+        <button class="button button-primary" type="submit">Add item</button>
+      </form>
+      <p id="shopping-empty" class="shopping-empty">Add ingredients from a recipe or type an item above.</p>
+      <ul id="shopping-items" class="shopping-items"></ul>
+      <div class="shopping-actions">
+        <button class="button button-outline" id="copy-shopping" type="button">Copy list</button>
+        <button class="text-button" id="clear-checked" type="button">Clear checked</button>
+      </div>
+      <p id="shopping-feedback" class="detail-helper" role="status"></p>
+    </div>
   </dialog>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <noscript>

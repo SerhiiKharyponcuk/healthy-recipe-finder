@@ -1,32 +1,32 @@
-/** UI model. All values here belong to the demo, not to TheMealDB. */
+/** Shared model for catalog cards, saved recipes, and recipe details. */
 export interface Recipe {
   id: string;
   title: string;
   description: string;
   image: string;
   imageAlt: string;
-  category: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snacks';
+  category: string;
   label: string;
-  prepMinutes: number;
-  cookMinutes: number;
-  servings: number;
-  ingredients: string[];
-  instructions: string[];
+  prepMinutes?: number;
+  cookMinutes?: number;
+  servings?: number;
+  /** Ingredient search returns summaries. Their details are loaded on demand. */
+  ingredients?: string[];
+  instructions?: string[];
 }
 
-/** Selected fields from the API. Adapt these to Recipe in your integration. */
+export type RecipeSearchMode = 'name' | 'ingredient';
+
+/** Category, ingredients and instructions are absent from ingredient results. */
 export interface MealDBMeal {
   idMeal: string;
   strMeal: string;
-  strCategory: string;
-  strArea: string;
-  strInstructions: string;
-  strMealThumb: string;
-  strYoutube: string;
-  strSource: string;
-  strTags: string;
-  [key: `strIngredient${number}`]: string;
-  [key: `strMeasure${number}`]: string | null;
+  strCategory?: string | null;
+  strArea?: string | null;
+  strInstructions?: string | null;
+  strMealThumb?: string | null;
+  [key: `strIngredient${number}`]: string | null | undefined;
+  [key: `strMeasure${number}`]: string | null | undefined;
 }
 
 export interface MealDBResponse {
