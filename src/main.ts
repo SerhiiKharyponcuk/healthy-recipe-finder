@@ -1,4 +1,6 @@
 import './styles/index.css';
+import { translateRecipe } from './api/recipe-translator';
+import type { RecipeTranslation } from './api/recipe-translator';
 import { browseRecipes, listFilterOptions, lookupRecipe, randomRecipe, recipesByLetter } from './api/themealdb';
 import type { FilterOption } from './api/themealdb';
 import { demoRecipes } from './data/demo-recipes';
@@ -25,6 +27,7 @@ const pageSize = 6;
 const catalogLetters = 'abcdefghijklmnopqrstuvwxyz';
 const quickCategories = ['', 'Vegetarian', 'Chicken', 'Seafood', 'Pasta', 'Dessert'];
 const recipeCache = new Map(demoRecipes.map((recipe) => [recipe.id, recipe]));
+const translationCache = new Map<string, RecipeTranslation>();
 
 let recipes: Recipe[] = [];
 let allCategories: FilterOption[] = [];
@@ -40,6 +43,7 @@ let loadingMore = false;
 let loadError: { message: string; retry: () => void } | undefined;
 let collectionRequest: AbortController | undefined;
 let detailRequest: AbortController | undefined;
+let translationRequest: AbortController | undefined;
 let searchTimer: ReturnType<typeof setTimeout>;
 let openRecipe: Recipe | undefined;
 const checkedIngredients = new Set<number>();
@@ -295,10 +299,19 @@ function updateDetailSave(): void {
   button.innerHTML = `${icon('heart')}${isSaved ? 'Recipe saved' : 'Save recipe'}`;
 }
 
-function showRecipe(recipe: Recipe, trigger: HTMLElement): void {
+function stopRecipeTranslation(): void {
+  translationRequest?.abort();
+  translationRequest = undefined;
+}
+
+function showRecipe(recipe: Recipe, trigger: HTMLElement, translation?: RecipeTranslation, focusLanguage = false): void {
+  stopRecipeTranslation();
   if (openRecipe?.id !== recipe.id) checkedIngredients.clear();
   lastTrigger = trigger;
   openRecipe = recipe;
+  const language = translation ? 'uk' : 'en';
+  const title = translation?.title ?? recipe.title;
+  const description = translation?.description ?? recipe.description;
   const eyebrow = [recipe.category, recipe.label].filter(Boolean).join(' · ').toUpperCase();
   const image = recipe.image
     ? `<img class="detail-image" src="${escapeHtml(imagePath(recipe.image))}" alt="${escapeHtml(recipe.imageAlt)}" width="600" height="600" />`
@@ -308,21 +321,29 @@ function showRecipe(recipe: Recipe, trigger: HTMLElement): void {
     recipe.cookMinutes !== undefined && `<div>${icon('chef')}<span><strong>${recipe.cookMinutes} min</strong><small>Cook time</small></span></div>`,
     recipe.servings !== undefined && `<div>${icon('users')}<span><strong>${recipe.servings}</strong><small>Servings</small></span></div>`,
   ].filter(Boolean).join('');
-  const ingredients = recipe.ingredients?.map((ingredient, index) =>
+  const ingredients = (translation?.ingredients ?? recipe.ingredients)?.map((ingredient, index) =>
     `<li><label><input type="checkbox" data-ingredient="${index}" ${checkedIngredients.has(index) ? 'checked' : ''} /><span>${escapeHtml(ingredient)}</span></label></li>`,
   ).join('');
-  const steps = cookingSteps(recipe);
+  const originalSteps = cookingSteps(recipe);
+  const steps = translation?.steps ?? originalSteps;
   const instructions = steps.map((step) => `<li><span>${escapeHtml(step)}</span></li>`).join('');
+  const scrollTop = focusLanguage ? dialog.scrollTop : 0;
 
   detail.innerHTML = `<div class="detail-hero">
     ${image}
     <div class="detail-intro">
       ${eyebrow ? `<p class="eyebrow">${escapeHtml(eyebrow)}</p>` : ''}
-      <h2 id="detail-title" tabindex="-1">${escapeHtml(recipe.title)}</h2>
-      ${recipe.description ? `<p class="detail-description">${escapeHtml(recipe.description)}</p>` : ''}
+      <h2 id="detail-title" tabindex="-1" lang="${language}">${escapeHtml(title)}</h2>
+      ${description ? `<p class="detail-description" lang="${language}">${escapeHtml(description)}</p>` : ''}
+      <div class="recipe-language">
+        <button class="button button-outline" id="translate-recipe" type="button" lang="${translation ? 'en' : 'uk'}" aria-describedby="translation-status">
+          ${icon('globe')} ${translation ? 'English original' : 'Українською'}
+        </button>
+        <p class="translation-status" id="translation-status" role="status" lang="uk">${translation ? 'Автоматичний переклад. Кількість і температуру можна звірити з оригіналом.' : ''}</p>
+      </div>
       ${metadata ? `<div class="detail-meta">${metadata}</div>` : ''}
       <div class="detail-actions">
-        ${steps.length ? `<button class="button button-primary" id="start-cooking" type="button">${icon('chef')} Cook step by step</button>` : ''}
+        ${steps.length ? `<button class="button button-primary" id="start-cooking" type="button" lang="${language}">${icon('chef')} ${translation ? 'Готувати покроково' : 'Cook step by step'}</button>` : ''}
         <button class="button button-outline" id="detail-save" type="button" aria-pressed="false"></button>
         <button class="button button-outline" id="share-recipe" type="button">${icon('link')} Copy link</button>
         <button class="button button-outline" id="print-recipe" type="button">${icon('print')} Print</button>
@@ -331,22 +352,27 @@ function showRecipe(recipe: Recipe, trigger: HTMLElement): void {
     </div>
   </div>
   <div class="detail-content">
-    <section aria-labelledby="ingredients-title"><h3 id="ingredients-title">A few good ingredients</h3>
+    <section aria-labelledby="ingredients-title"><h3 id="ingredients-title" lang="${language}">${translation ? 'Інгредієнти' : 'A few good ingredients'}</h3>
       ${ingredients ? `<p class="detail-helper">Check ingredients as you prep, or take them shopping.</p>
         <button class="button button-outline add-to-shopping" id="add-ingredients" type="button">${icon('basket')} Add ingredients to list</button>
         <p class="detail-helper" id="ingredient-feedback" role="status"></p>
-        <ul class="ingredient-list">${ingredients}</ul>` : '<p class="detail-helper">Ingredients are unavailable for this recipe.</p>'}
+        <ul class="ingredient-list" lang="${language}">${ingredients}</ul>` : '<p class="detail-helper">Ingredients are unavailable for this recipe.</p>'}
     </section>
-    <section aria-labelledby="instructions-title"><h3 id="instructions-title">Let's make it</h3>
-      ${instructions ? `<ol class="instruction-list">${instructions}</ol>` : '<p class="detail-helper">Instructions are unavailable for this recipe.</p>'}
+    <section aria-labelledby="instructions-title"><h3 id="instructions-title" lang="${language}">${translation ? 'Приготування' : "Let's make it"}</h3>
+      ${instructions ? `<ol class="instruction-list" lang="${language}">${instructions}</ol>` : '<p class="detail-helper">Instructions are unavailable for this recipe.</p>'}
     </section>
   </div>`;
   updateDetailSave();
   element('#detail-save').addEventListener('click', () => toggleSaved(recipe.id));
   element('#print-recipe').addEventListener('click', () => window.print());
   element('#share-recipe').addEventListener('click', () => void copyRecipeLink(recipe.id));
+  element<HTMLButtonElement>('#translate-recipe').addEventListener('click', () => {
+    if (translation) showRecipe(recipe, trigger, undefined, true);
+    else void showTranslation(recipe, trigger, originalSteps);
+  });
   detail.querySelector('#start-cooking')?.addEventListener('click', () => {
-    openCookingMode(detail, recipe, steps, () => showRecipe(recipe, trigger));
+    stopRecipeTranslation();
+    openCookingMode(detail, { id: recipe.id, title }, steps, () => showRecipe(recipe, trigger, translation), language);
   });
   detail.querySelector('#add-ingredients')?.addEventListener('click', () => {
     element('#ingredient-feedback').textContent = addRecipeIngredients(recipe);
@@ -358,8 +384,45 @@ function showRecipe(recipe: Recipe, trigger: HTMLElement): void {
     else checkedIngredients.delete(index);
   });
   if (!dialog.open) dialog.showModal();
-  dialog.scrollTop = 0;
-  element('#detail-title').focus({ preventScroll: true });
+  dialog.scrollTop = scrollTop;
+  element(focusLanguage ? '#translate-recipe' : '#detail-title').focus({ preventScroll: true });
+}
+
+async function showTranslation(recipe: Recipe, trigger: HTMLElement, steps: string[]): Promise<void> {
+  if (translationRequest) return;
+  const cached = translationCache.get(recipe.id);
+  if (cached) {
+    showRecipe(recipe, trigger, cached, true);
+    return;
+  }
+
+  translationRequest = new AbortController();
+  const { signal } = translationRequest;
+  const button = element('#translate-recipe');
+  const status = element('#translation-status');
+  button.setAttribute('aria-disabled', 'true');
+  status.textContent = 'Готуємо перекладач…';
+  try {
+    const translation = await translateRecipe(recipe, steps, signal, (progress) => {
+      if (signal.aborted) return;
+      const message = progress === 'translating' ? 'Перекладаємо рецепт…'
+        : `Завантажуємо мовний пакет: ${Math.min(100, Math.floor(progress.download / 10) * 10)}%`;
+      if (status.textContent !== message) status.textContent = message;
+    });
+    if (signal.aborted || !dialog.open) return;
+    translationCache.set(recipe.id, translation);
+    showRecipe(recipe, trigger, translation, true);
+  } catch (error) {
+    if (signal.aborted) return;
+    status.textContent = error instanceof DOMException && error.name === 'NotSupportedError'
+      ? 'Вбудований переклад недоступний у цьому браузері. Спробуйте Chrome на комп’ютері або переклад сторінки у вашому браузері.'
+      : 'Не вдалося перекласти рецепт. Перевірте підключення та спробуйте ще раз.';
+  } finally {
+    if (!signal.aborted) {
+      translationRequest = undefined;
+      button.removeAttribute('aria-disabled');
+    }
+  }
 }
 
 async function copyRecipeLink(id: string): Promise<void> {
@@ -518,6 +581,7 @@ dialog.addEventListener('click', (event) => {
   }
 });
 dialog.addEventListener('close', () => {
+  stopRecipeTranslation();
   const recipeId = openRecipe?.id;
   openRecipe = undefined;
   const replacement = recipeId ? grid.querySelector<HTMLButtonElement>(`[data-open="${CSS.escape(recipeId)}"]`) : null;

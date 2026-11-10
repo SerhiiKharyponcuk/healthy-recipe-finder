@@ -19,10 +19,36 @@ export function cookingSteps(recipe: Recipe): string[] {
 
 export function openCookingMode(
   container: HTMLElement,
-  recipe: Recipe,
+  recipe: Pick<Recipe, 'id' | 'title'>,
   steps: string[],
   onExit: () => void,
+  language: 'en' | 'uk',
 ): void {
+  const copy = language === 'uk' ? {
+    back: 'До рецепта',
+    mode: 'РЕЖИМ ПРИГОТУВАННЯ',
+    complete: 'Усі кроки виконано',
+    step: (current: number, total: number) => `Крок ${current} із ${total}`,
+    progress: 'Виконані кроки приготування',
+    done: 'Страва готова!',
+    enjoy: 'Смачного!',
+    restart: 'Готувати знову',
+    previous: 'Попередній крок',
+    finish: 'Завершити приготування',
+    next: 'Наступний крок',
+  } : {
+    back: 'Back to recipe',
+    mode: 'COOKING MODE',
+    complete: 'All steps complete',
+    step: (current: number, total: number) => `Step ${current} of ${total}`,
+    progress: 'Completed cooking steps',
+    done: 'You made it!',
+    enjoy: 'Time to pull up a chair and enjoy.',
+    restart: 'Cook again',
+    previous: 'Previous',
+    finish: 'Finish cooking',
+    next: 'Next step',
+  };
   const storageKey = `sprout:cooking:v1:${recipe.id}`;
   const stored = readStorage(storageKey);
   let step = typeof stored === 'number' && Number.isInteger(stored) ? Math.min(Math.max(0, stored), steps.length) : 0;
@@ -35,23 +61,23 @@ export function openCookingMode(
 
   function render(): void {
     const finished = step === steps.length;
-    container.innerHTML = `<section class="cooking-panel">
-      <button class="text-button cooking-back" type="button" data-cook="exit">← Back to recipe</button>
-      <p class="eyebrow">COOKING MODE</p>
+    container.innerHTML = `<section class="cooking-panel" lang="${language}">
+      <button class="text-button cooking-back" type="button" data-cook="exit">← ${copy.back}</button>
+      <p class="eyebrow">${copy.mode}</p>
       <h2 id="detail-title" tabindex="-1">${escapeHtml(recipe.title)}</h2>
       <div class="cooking-progress">
-        <span>${finished ? 'All steps complete' : `Step ${step + 1} of ${steps.length}`}</span>
-        <progress value="${step}" max="${steps.length}" aria-label="Completed cooking steps"></progress>
+        <span>${finished ? copy.complete : copy.step(step + 1, steps.length)}</span>
+        <progress value="${step}" max="${steps.length}" aria-label="${copy.progress}"></progress>
       </div>
       <div class="cooking-step">
         <span class="step-number" aria-hidden="true">${finished ? icon('check') : String(step + 1).padStart(2, '0')}</span>
-        ${finished ? '<h3>You made it!</h3><p>Time to pull up a chair and enjoy.</p>' : `<p>${escapeHtml(steps[step])}</p>`}
+        ${finished ? `<h3>${copy.done}</h3><p>${copy.enjoy}</p>` : `<p>${escapeHtml(steps[step])}</p>`}
       </div>
       <div class="cooking-actions">
-        ${finished ? '<button class="button button-outline" type="button" data-cook="restart">Cook again</button>'
-          : `<button class="button button-outline" type="button" data-cook="previous" ${step === 0 ? 'disabled' : ''}>Previous</button>`}
+        ${finished ? `<button class="button button-outline" type="button" data-cook="restart">${copy.restart}</button>`
+          : `<button class="button button-outline" type="button" data-cook="previous" ${step === 0 ? 'disabled' : ''}>${copy.previous}</button>`}
         <button class="button button-primary" type="button" data-cook="${finished ? 'exit' : 'next'}">
-          ${finished ? 'Back to recipe' : step + 1 === steps.length ? 'Finish cooking' : 'Next step'} ${icon('arrow')}
+          ${finished ? copy.back : step + 1 === steps.length ? copy.finish : copy.next} ${icon('arrow')}
         </button>
       </div>
     </section>`;
