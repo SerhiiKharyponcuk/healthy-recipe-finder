@@ -7,6 +7,7 @@ import { demoRecipes } from './data/demo-recipes';
 import type { Recipe, RecipeSearchMode } from './types/recipe';
 import { cookingSteps, openCookingMode } from './ui/cooking-mode';
 import { element, escapeHtml, icon, readStorage, writeStorage } from './ui/dom';
+import { initPageTranslation } from './ui/page-translation';
 import { addRecipeIngredients } from './ui/shopping-list';
 
 const grid = element<HTMLDivElement>('#recipe-grid');
@@ -335,7 +336,7 @@ function showRecipe(recipe: Recipe, trigger: HTMLElement, translation?: RecipeTr
       ${eyebrow ? `<p class="eyebrow">${escapeHtml(eyebrow)}</p>` : ''}
       <h2 id="detail-title" tabindex="-1" lang="${language}">${escapeHtml(title)}</h2>
       ${description ? `<p class="detail-description" lang="${language}">${escapeHtml(description)}</p>` : ''}
-      <div class="recipe-language">
+      <div class="recipe-language" translate="no">
         <button class="button button-outline" id="translate-recipe" type="button" lang="${translation ? 'en' : 'uk'}" aria-describedby="translation-status">
           ${icon('globe')} ${translation ? 'English original' : 'Українською'}
         </button>
@@ -588,6 +589,7 @@ dialog.addEventListener('close', () => {
   const returnTarget = lastTrigger?.isConnected ? lastTrigger : replacement ?? savedToggle;
   returnTarget.focus({ preventScroll: true });
 });
+initPageTranslation();
 refreshRecipes();
 const filterSignal = new AbortController().signal;
 void Promise.allSettled([listFilterOptions('c', filterSignal), listFilterOptions('a', filterSignal)]).then(([categories, cuisines]) => {

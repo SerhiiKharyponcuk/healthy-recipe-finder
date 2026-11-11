@@ -1,18 +1,6 @@
 import type { Recipe } from '../types/recipe';
-
-interface BrowserTranslator {
-  translate(text: string, options: { signal: AbortSignal }): Promise<string>;
-  destroy(): void;
-}
-
-interface BrowserTranslatorFactory {
-  create(options: {
-    sourceLanguage: string;
-    targetLanguage: string;
-    signal: AbortSignal;
-    monitor: (monitor: EventTarget) => void;
-  }): Promise<BrowserTranslator>;
-}
+import { createUkrainianTranslator } from './translator';
+import type { TranslationProgress } from './translator';
 
 export interface RecipeTranslation {
   title: string;
@@ -21,28 +9,13 @@ export interface RecipeTranslation {
   steps: string[];
 }
 
-export type TranslationProgress = { download: number } | 'translating';
-
 export async function translateRecipe(
   recipe: Recipe,
   steps: string[],
   signal: AbortSignal,
   onProgress: (progress: TranslationProgress) => void,
 ): Promise<RecipeTranslation> {
-  const api = (globalThis as typeof globalThis & { Translator?: BrowserTranslatorFactory }).Translator;
-  if (!api) throw new DOMException('Browser translation unavailable', 'NotSupportedError');
-
-  // Create directly from the click handler, while the browser still has user activation.
-  const translator = await api.create({
-    sourceLanguage: 'en',
-    targetLanguage: 'uk',
-    signal,
-    monitor: (monitor) => {
-      monitor.addEventListener('downloadprogress', (event) => {
-        if (event instanceof ProgressEvent) onProgress({ download: event.loaded * 100 });
-      });
-    },
-  });
+  const translator = await createUkrainianTranslator(signal, onProgress);
 
   async function translate(text: string): Promise<string> {
     signal.throwIfAborted();

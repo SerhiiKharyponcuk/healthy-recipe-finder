@@ -74,7 +74,7 @@
 
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="#" aria-label="Sprout home"><svg class="icon brand-icon">
+      <a class="brand" href="#" aria-label="Sprout home" translate="no"><svg class="icon brand-icon">
           <use href="#icon-leaf" />
         </svg>sprout<span class="brand-dot">.</span></a>
       <nav class="main-nav" aria-label="Main navigation">
@@ -82,6 +82,12 @@
         <a class="nav-link" href="#philosophy">Our philosophy</a>
       </nav>
       <div class="header-actions">
+        <button class="saved-button language-toggle" id="page-translate" type="button" translate="no"
+          aria-label="Перекласти сторінку українською" aria-describedby="page-translation-status">
+          <svg class="icon" aria-hidden="true"><use href="#icon-globe" /></svg>
+          <span id="page-language-label" lang="uk">Українською</span>
+          <span class="language-label-short" id="page-language-short" aria-hidden="true">UA</span>
+        </button>
         <button class="saved-button" id="saved-toggle" type="button" aria-pressed="false" aria-label="Saved recipes">
           <svg class="icon" aria-hidden="true"><use href="#icon-heart" /></svg>
           <span class="action-label">Saved</span><span class="saved-count" id="saved-count" aria-hidden="true">0</span>
@@ -93,6 +99,7 @@
       </div>
     </div>
   </header>
+  <p class="page-translation-status container" id="page-translation-status" role="status" lang="uk" translate="no" hidden></p>
 
   <main id="main-content">
     <section class="hero container" aria-labelledby="hero-title">
@@ -200,7 +207,7 @@
     </section>
   </main>
 
-  <footer class="site-footer container"><a class="brand" href="#" aria-label="Sprout home"><svg class="icon brand-icon">
+  <footer class="site-footer container"><a class="brand" href="#" aria-label="Sprout home" translate="no"><svg class="icon brand-icon">
         <use href="#icon-leaf" />
       </svg>sprout<span class="brand-dot">.</span></a>
     <p>Good food, everyday.</p><a href="https://www.themealdb.com/documentation" target="_blank"

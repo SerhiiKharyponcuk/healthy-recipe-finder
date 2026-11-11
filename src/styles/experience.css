@@ -29,6 +29,11 @@ html { scroll-padding-top: 94px; }
   font-weight: 650;
 }
 .header-actions .shopping-button { background: #e8eedf; border-color: transparent; }
+.header-actions .language-toggle { white-space: nowrap; }
+.language-label-short { display: none; }
+.language-toggle[aria-busy='true'] .icon { opacity: .55; }
+.page-translation-status { padding-block: 12px; font-size: 13px; color: var(--color-muted); }
+html[data-page-language='uk'] .recipe-language { display: none; }
 .header-actions .saved-count { display: grid; place-items: center; min-width: 20px; height: 20px; font-size: 10px; }
 .button:disabled, .text-button:disabled { opacity: .55; cursor: default; }
 
@@ -220,6 +225,8 @@ html { scroll-padding-top: 94px; }
   .header-actions { gap: 5px; }
   .header-actions .saved-button { gap: 5px; padding-inline: 9px; }
   .header-actions .action-label { display: none; }
+  #page-language-label { display: none; }
+  .language-label-short { display: inline; }
   .hero { min-height: 0; margin-top: 15px; }
   .hero-copy { padding: 27px 20px 0; }
   .hero h1 { font-size: clamp(44px, 10vw, 57px); }
@@ -243,6 +250,7 @@ html { scroll-padding-top: 94px; }
   .cooking-step { padding: 18px; }
 }
 @media print {
+  .page-translation-status { display: none; }
   .recipe-language .button { display: none; }
   .add-to-shopping, #ingredient-feedback, #share-feedback { display: none !important; }
 }
